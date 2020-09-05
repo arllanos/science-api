@@ -1,12 +1,8 @@
 # Coding Excercise
 ## Provider Utilization and Payment Data
 
-### Download data and initialize database
-```
-make init
-```
-
 ### Start the API container
+The firt time, it will take some minutes to download the csv file and initialize the sqlite database. This download and initialization task will ocurr only one time.
 ```
 make up
 ```
@@ -17,4 +13,6 @@ make down
 ```
 
 ## API Endpoints
+
+
 Refer to http://localhost:80/docs
