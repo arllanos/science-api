@@ -1,10 +1,11 @@
 # location and name of csv data
+# note: CMS_DIR will be used to host downloaded csv file and sqlite db
 CMS_DIR := $(HOME)/science-data
 CMS_FILE := cms.csv
 
-init: export CMS_EXPECTED_ROWS=9847444
 init: export CMS_DIR=$(HOME)/science-data
 init: export CMS_FILE=cms.csv
+init: export CMS_EXPECTED_ROWS=9847444
 
 init: up
 	bash scripts/get_data.sh
