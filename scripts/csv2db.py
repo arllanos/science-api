@@ -43,7 +43,7 @@ for df in pd.read_csv(csv_fullpath, chunksize=chunksize, iterator=True):
     elapsed = pc() - t0
     print('| index: {}. Elapsed time(s) {}'.format(j, elapsed), sep=' ', end='\r')
 elapsed = pc() - t0
-print('Done. Elapsed time(s) {}               '.format(elapsed))
+print('Done. Elapsed time(s) {}       '.format(elapsed))
 
 df = pd.read_sql_query('select count(*) as cnt from mytable', conn)
 
