@@ -1,4 +1,4 @@
-up: check-env #get-data
+up: check-env
 	docker start science-api 2>/dev/null || docker run -d --rm -v ${CMS_DIR}:/science-data -e CMS_DIR=../science-data -e CMS_FILE=${CMS_FILE} --name science-api -p 80:80 arllanos/science-api
 	docker exec -it science-api python3 scripts/csv2db.py
 

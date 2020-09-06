@@ -15,12 +15,11 @@ export CMS_FILE=mpup.csv
 ```
 
 ### Start the API container
-The firt run, sqlite database will be initialized automatically.
-This will ocurr only once but would takes a few minutes.
 ```
 make up
 ```
-While the API container is runnning it is accessible through http://localhost:80. See API Endpoints section below for more details.
+The firt run, sqlite database will be initialized automatically. This will ocurr only once and can take a few minutes.
+In any case, sthe start up process will perform the check for CSV and database file integrity. The container should be running in the background when the check completes and the API should be accessible at http://localhost:80. See API Endpoints section below for more details.
 
 ### Stop the API container
 ```
