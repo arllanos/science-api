@@ -5,15 +5,7 @@ import sqlite3
 import sys
 from sqlalchemy import create_engine
 from time import perf_counter as pc
-
-DIR = os.environ['CMS_DIR']
-FILE_CSV = os.environ['CMS_FILE']
-FILE_DB = os.path.splitext(FILE_CSV)[0]
-
-csv_fullpath = '{}/{}'.format(DIR, FILE_CSV)
-csv_base = os.path.basename(csv_fullpath)
-db_base = '{}.{}'.format(os.path.splitext(csv_base)[0], 'db')
-db_fullpath = '{}/{}'.format(DIR, db_base)
+from database import engine, db_fullpath, csv_fullpath
 
 def import_data(conn):
     chunksize = 10000
@@ -40,7 +32,7 @@ def import_data(conn):
 
 def print_summary(rows_csv, rows_db):
     print('Num rows in csv w/o header .: ', rows_csv)
-    print('Num rows in sqlite..........: ', rows_db)
+    print('Num rows in Sqlite..........: ', rows_db)
 
 def main():
     # read csv file
@@ -52,27 +44,22 @@ def main():
 
     # read db if already initialized
     if os.path.isfile(db_fullpath):
-        print('Found sqlite db')
-        SQLALCHEMY_DATABASE_URL='sqlite:///{}'.format(db_fullpath)
-        conn = create_engine(SQLALCHEMY_DATABASE_URL)
-        df = pd.read_sql_query('select count(*) as cnt from mytable', conn)
+        print('Found Sqlite db')
+        df = pd.read_sql_query('select count(*) as cnt from mytable', engine)
         num_rows = df['cnt'][0]
         
         print_summary(num_lines-1, num_rows)
 
         if num_lines-1 != num_rows:
-            print('SQLITE needs re-import.')
+            print('Sqlite needs re-import.')
             os.remove(db_fullpath)
         else:
             return
     else:
-        print('sqlite db file not found. Will initialize new db file...')
-
-    SQLALCHEMY_DATABASE_URL='sqlite:///{}'.format(db_fullpath)
-    conn = create_engine(SQLALCHEMY_DATABASE_URL)
+        print('Sqlite db file not found. Will initialize new db file...')
 
     # import the data
-    num_rows = import_data(conn)
+    num_rows = import_data(engine)
 
     print_summary(num_lines-1, num_rows)
 
