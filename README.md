@@ -2,7 +2,7 @@
 ## Provider Utilization and Payment Data
 
 ### Provision Medicare Provider Utilization and Payment csv file
-Download the file and put on a directory of your choice. 
+Download the [file](https://data.cms.gov/Medicare-Physician-Supplier/Medicare-Provider-Utilization-and-Payment-) and put it on directory of your choice. 
 Then set the following variables accordingly:
 ```
 export CMS_DIR=<csv_directory>
