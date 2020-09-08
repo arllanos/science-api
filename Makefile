@@ -1,6 +1,6 @@
 up: check-env
 	docker start science-api 2>/dev/null || docker run -d --rm -v ${CMS_DIR}:/science-data -e CMS_DIR=../science-data -e CMS_FILE=${CMS_FILE} --name science-api -p 80:80 arllanos/science-api
-	docker exec -it science-api python3 app/csv2db.py
+	docker exec -it science-api python3 csv2db.py
 
 down:
 	docker kill science-api 2>/dev/null || true

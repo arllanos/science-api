@@ -56,6 +56,13 @@ Metric names (numerical columns) as well as filter names (categorical columns) f
 
 ![alt text](https://gist.githubusercontent.com/arllanos/ade072aa76cf53c358ed8504b62a460f/raw/9650017aaaad6e4e3fa3c0cea884a68a48ca99a9/science-api-gist.JPG "Stats request")
 
+| Name | Description  |
+| ---- | ------------ |
+| metric_id  | NumberofServices |
+| filters  | {"CountryCodeoftheProvider": "US"} |
+|   | {"ZipCodeoftheProvider": 602011718} |
+|   | {"HCPCSCode": 99232} |
+
 ```
 curl -X GET "http://localhost:8000/stats/metric/NumberofServices?filters=%7B%22CountryCodeoftheProvider%22%3A%20%22US%22%7D&filters=%7B%22ZipCodeoftheProvider%22%3A%20602011718%7D&filters=%7B%22HCPCSCode%22%3A%2099232%7D" -H  "accept: application/json"
 ```
