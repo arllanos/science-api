@@ -19,10 +19,11 @@ export CMS_FILE=mpup.csv
 ### 2. Initialize the database
 ```bash
 make up
-rm -f ${CMS_DIR}/$(echo ${CMS_FILE%%.*}.db)
-docker exec -it science-api python3 csv2db.py
 ```
-
+Wait a few seconds to make sure the service is running and then run:
+```bash
+rm -f ${CMS_DIR}/$(echo ${CMS_FILE%%.*}.db) && docker exec -it science-api python3 csv2db.py
+```
 ### 3. Start the service and stop the service
 To start the service:
 ```
