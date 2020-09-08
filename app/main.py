@@ -1,7 +1,11 @@
-from typing import Optional
-from fastapi import FastAPI
+from typing import Optional, List
+from fastapi import FastAPI, Query, Depends, Response
+from fastapi.encoders import jsonable_encoder
+from fastapi.responses import JSONResponse
 from sqlalchemy.sql import text
+from pydantic import BaseModel
 from query import get_stats
+import json
 
 app = FastAPI()
 
@@ -9,22 +13,11 @@ app = FastAPI()
 def read_root():
     return {"REST API": "up and running"}
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
+def filters_dict(filters: List[str] = Query(...)):
+    return list(map(json.loads, filters))
 
-@app.get("/stats/{item_id}")
-def read_stats(item_id: int, q: Optional[str] = None):
-    return {"item_id": item_id, "q": q}
-
-dummy_data = [i for i in range(100)]
-
-# @app.get("/my/page/items/")
-# async def read_item(page: int = 0, limit: int = 0, skip: int = 1):
-#     return dummy_data[page*10: page*10 + limit: skip]
-
-# metrics = ['NumberofServices', 'NumberofMedicareBeneficiaries']
-# filters = {'CountryCodeoftheProvider': 'AR'}
-# df = get_stats(metrics, filters)
-# result = df.min()
-# print(result.to_json())
+@app.get("/stats/metric/{metric_id}")
+async def read_single_metric_stats(metric_id: str, filter: list = Depends(filters_dict)):
+    d_filters = {k: v for d in filter for k, v in d.items()}
+    stats = get_stats(metric_id, d_filters)
+    return stats

@@ -4,4 +4,6 @@ RUN pip install pandas
 RUN pip install SQLAlchemy
 RUN pip install alembic
 
-COPY ./app /app/app
+COPY ./app /app
+
+WORKDIR /app

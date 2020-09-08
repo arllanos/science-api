@@ -40,7 +40,7 @@ def query_submit(country: str, state: str, city: str, zip_code: str, hcpcs_code:
     return df
 
 
-def get_stats(metrics: list, filters: dict):
+def get_stats(metric: str, filters: dict) -> dict:
     country = filters.get('CountryCodeoftheProvider', '')
     state = filters.get('StateCodeoftheProvider', '')
     city = filters.get('CityoftheProvider', '')
@@ -48,4 +48,16 @@ def get_stats(metrics: list, filters: dict):
     hcpcs_code = filters.get('HCPCSCode', '')
 
     df = query_submit(country, state, city, zip_code, hcpcs_code)
-    return df.groupby(list(filters.keys()))[metrics].agg([np.min, np.max, np.mean])
+    result = {
+        "min":  df[metric].min(),
+        "max":  df[metric].max(),
+        "mean": df[metric].mean()
+    }
+    return result
+
+    # return df.groupby(list(filters.keys()))[metric].agg([np.min, np.max, np.mean])
+
+# metric_id = "NumberofServices"
+# d_filters = {"CountryCodeoftheProvider": "US", "ZipCodeoftheProvider": 602011718, "HCPCSCode": 99232}
+# stats = get_stats(metric_id, d_filters)
+# print(stats)
