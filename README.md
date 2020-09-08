@@ -2,7 +2,8 @@
 ## Provider Utilization and Payment Data
 This is a minimalist REST API to obtain basic stats about the Provider Utilization and Payment dataset.
 
-### Provision Medicare Provider Utilization and Payment csv file
+## Running the application
+### 1. Provision Medicare Provider Utilization and Payment csv file
 Download the data [file](https://data.cms.gov/Medicare-Physician-Supplier/Medicare-Provider-Utilization-and-Payment-Data-Phy/fs4p-t5eq/data) and put it on a directory of your choice. 
 Then set the following variables accordingly:
 ```
@@ -15,7 +16,7 @@ export CMS_DIR=$HOME/science-data
 export CMS_FILE=mpup.csv
 ```
 
-### Start the API container
+### 2. Start the API container
 ```
 make up
 ```
@@ -27,7 +28,7 @@ To check the container is up and running run:
 docker ps -a
 ```
 
-### Stop the API container
+### 3. Stop the API container
 ```
 make down
 ```
