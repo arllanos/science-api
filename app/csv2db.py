@@ -1,13 +1,14 @@
 import os
-import numpy as numpy
 import pandas as pd
 import sqlite3
-import sys
 from sqlalchemy import create_engine
 from time import perf_counter as pc
 from database import engine, db_fullpath, csv_fullpath
+from alembic.migration import MigrationContext
+from alembic.operations import Operations
 
-def import_data(conn):
+
+def import_data(engine):
     chunksize = 10000
     j = 0
     t0 = pc()
@@ -17,7 +18,7 @@ def import_data(conn):
         df = df.rename(columns = {c: c.replace('/', '') for c in df.columns})
         df.index += j
 
-        df.to_sql('mytable', conn, if_exists = 'append')
+        df.to_sql('mytable', engine, if_exists = 'append')
         j = df.index[-1]+1
 
         elapsed = pc() - t0
@@ -25,14 +26,30 @@ def import_data(conn):
     elapsed = pc() - t0
     print('Done. Elapsed time(s) {}       '.format(elapsed))
 
-    df = pd.read_sql_query('select count(*) as cnt from mytable', conn)
+    df = pd.read_sql_query('select count(*) as cnt from mytable', engine)
 
     num_rows = df['cnt'][0]
     return num_rows
 
+
+def create_indexes(engine):
+    conn = engine.connect()
+    ctx = MigrationContext.configure(conn)
+    op = Operations(ctx)    
+
+    print("Creating indexes...")
+    op.execute("CREATE INDEX IF NOT EXISTS CityoftheProvider_idx ON mytable(CityoftheProvider)")
+    op.execute("CREATE INDEX IF NOT EXISTS ZipCodeoftheProvider_idx on mytable(ZipCodeoftheProvider)")
+    op.execute("CREATE INDEX IF NOT EXISTS StateCodeoftheProvider_idx on mytable(StateCodeoftheProvider)")
+    op.execute("CREATE INDEX IF NOT EXISTS CountryCodeoftheProvider_idx on mytable(CountryCodeoftheProvider)")
+    op.execute("CREATE INDEX IF NOT EXISTS ProviderType_idx on mytable(ProviderType)")
+    op.execute("CREATE INDEX IF NOT EXISTS HCPCSCode_idx on mytable(HCPCSCode)")
+
+
 def print_summary(rows_csv, rows_db):
     print('Num rows in csv w/o header .: ', rows_csv)
     print('Num rows in Sqlite..........: ', rows_db)
+
 
 def main():
     # read csv file
@@ -60,6 +77,9 @@ def main():
 
     # import the data
     num_rows = import_data(engine)
+
+    # indexing
+    create_indexes(engine)
 
     print_summary(num_lines-1, num_rows)
 
