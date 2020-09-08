@@ -36,8 +36,14 @@ make down
 Refer to http://localhost:80/docs
 
 ### Get Stats for a metric
+#### Notes
+Metric names (numerical columns) as well as filter names (categorical columns) follows the same names as the official dataset except that blank spaces as well as special caracters like "/" are removed.
 
-**GET** `http://localhost:80/stats/metric/<metric>?<list_of_filter_as_key_value_pairs>`
+**Region related values to use as filters (categorical)**: CountryCodeoftheProvider, StateCodeoftheProvider, CityoftheProvider, ZipCodeoftheProvider, HCPCSCode
+
+**Numerical columns to compute stats**: NumberofServices, NumberofMedicareBeneficiaries, NumberofDistinctMedicareBeneficiaryPerDayServices, AverageMedicareAllowedAmount, AverageSubmittedChargeAmount, AverageMedicarePaymentAmount, AverageMedicareStandardizedAmount
+
+**GET** `http://localhost:80/stats/metric/<metric_id>?<list_of_filter_as_key_value_pairs>`
 
 | Code | Description  |
 | ---- | ------------ |
@@ -50,7 +56,7 @@ Refer to http://localhost:80/docs
 ![alt text](https://gist.githubusercontent.com/arllanos/ade072aa76cf53c358ed8504b62a460f/raw/9650017aaaad6e4e3fa3c0cea884a68a48ca99a9/science-api-gist.JPG "Stats request")
 
 ```
-curl -X GET "http://localhost:8000/stats/metric/NumberofServices?filters=%7B%22CountryCodeoftheProvider%22%3A%20%22US%22%7D&filters=%7B%22ZipCodeoftheProvider%22%3A%20602011718%7D&filters=%22HCPCSCode%22%3A%2099232" -H  "accept: application/json"
+curl -X GET "http://localhost:8000/stats/metric/NumberofServices?filters=%7B%22CountryCodeoftheProvider%22%3A%20%22US%22%7D&filters=%7B%22ZipCodeoftheProvider%22%3A%20602011718%7D&filters=%7B%22HCPCSCode%22%3A%2099232%7D" -H  "accept: application/json"
 ```
 
 **Example Response**
