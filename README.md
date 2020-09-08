@@ -18,22 +18,25 @@ export CMS_FILE=mpup.csv
 
 ### 2. Initialize the database
 ```bash
+make up
 rm -f ${CMS_DIR}/$(echo ${CMS_FILE%%.*}.db)
 docker exec -it science-api python3 csv2db.py
 ```
 
-### 3. Start the API container
+### 3. Start the service and stop the service
+To start the service:
 ```
 make up
 ```
-After executing `make up`, the container should be running in the background and the API should be accessible at http://localhost:80. See API Endpoints section below for more details.
-To check the container is up and running run:
-```
+To check if the container is up and running:
+```bash
 docker ps -a
 ```
+The container should be running in the background and the API should be accessible at http://localhost:80. See API Endpoints section below for more details.
 
-### 4. Stop the API container
-```
+To stop the container:
+
+```bash
 make down
 ```
 
