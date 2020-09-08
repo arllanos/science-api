@@ -55,8 +55,6 @@ def get_stats(metric: str, filters: dict) -> dict:
     }
     return result
 
-    # return df.groupby(list(filters.keys()))[metric].agg([np.min, np.max, np.mean])
-
 # metric_id = "NumberofServices"
 # d_filters = {"CountryCodeoftheProvider": "US", "ZipCodeoftheProvider": 602011718, "HCPCSCode": 99232}
 # stats = get_stats(metric_id, d_filters)

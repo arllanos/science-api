@@ -6,29 +6,33 @@ This is a minimalist REST API to obtain basic stats about the Provider Utilizati
 ### 1. Provision Medicare Provider Utilization and Payment csv file
 Download the data [file](https://data.cms.gov/Medicare-Physician-Supplier/Medicare-Provider-Utilization-and-Payment-Data-Phy/fs4p-t5eq/data) and put it on a directory of your choice. 
 Then set the following variables accordingly:
-```
+```bash
 export CMS_DIR=<csv_directory>
 export CMS_FILE=<csv_file_name>
 ```
 Example values:
-```
+```bash
 export CMS_DIR=$HOME/science-data
 export CMS_FILE=mpup.csv
 ```
 
-### 2. Start the API container
+### 2. Initialize the database
+```bash
+rm -f ${CMS_DIR}/$(echo ${CMS_FILE%%.*}.db)
+docker exec -it science-api python3 csv2db.py
+```
+
+### 3. Start the API container
 ```
 make up
 ```
-The firt run, sqlite database will be initialized automatically. This will ocurr only once and can take a few minutes.
-In any case, the start up process will perform the check for CSV and database file integrity. 
-After db initialization or db integrity check, the container should be running in the background and the API should be accessible at http://localhost:80. See API Endpoints section below for more details.
+After executing `make up`, the container should be running in the background and the API should be accessible at http://localhost:80. See API Endpoints section below for more details.
 To check the container is up and running run:
 ```
 docker ps -a
 ```
 
-### 3. Stop the API container
+### 4. Stop the API container
 ```
 make down
 ```
