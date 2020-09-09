@@ -72,7 +72,7 @@ Metric names (numerical columns) as well as filter names (categorical columns) f
 |   | {"HCPCSCode": 99232} |
 
 ```
-curl -X GET "http://localhost:8000/stats/metric/NumberofServices?filters=%7B%22CountryCodeoftheProvider%22%3A%20%22US%22%7D&filters=%7B%22ZipCodeoftheProvider%22%3A%20602011718%7D&filters=%7B%22HCPCSCode%22%3A%2099232%7D" -H  "accept: application/json"
+curl -X GET "http://localhost:80/stats/metric/NumberofServices?filters=%7B%22CountryCodeoftheProvider%22%3A%20%22US%22%7D&filters=%7B%22ZipCodeoftheProvider%22%3A%20602011718%7D&filters=%7B%22HCPCSCode%22%3A%2099232%7D" -H  "accept: application/json"
 ```
 
 **Example Response**
